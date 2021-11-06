@@ -12,7 +12,7 @@
 	<artifactId>Project2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Project2</name>
-	<description>This is the Project 2 : MovieBook : FullStackAlchemist</description>
+	<description>Project 2 : Move Book</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
