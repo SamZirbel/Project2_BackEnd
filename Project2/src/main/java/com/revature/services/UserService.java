@@ -26,15 +26,16 @@ public class UserService {
 		this.ae = ae;
 
 	}
-
+//need to test this login method
 	public UserClass login(String username, String password) {
-
-		// need implementation
-		return new UserClass();
+		return userrepo.verifyLoginInfo(username, ae.encrypt(password));	 
 	}
 
+	@Modifying
+	@Transactional
 	public boolean forgetPasword(String username, String displayname) {
-
+		
+		
 		// need implementation
 		return false;
 	}
