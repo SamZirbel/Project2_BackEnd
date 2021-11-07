@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.revature.models.User;
+import com.revature.models.UserClass;
 import com.revature.repos.UserRepo;
 @SpringBootTest
 class UserServiceTest {
-	
 
 	@Autowired
 	private UserRepo userRepo;
@@ -21,14 +20,14 @@ class UserServiceTest {
 	@Test
 	void testFindByUsername() {
 
-		Optional<List<User>> olist = userRepo.findByUsername("Sample");
+		Optional<List<UserClass>> olist = userRepo.findByUsername("Sample");
 		assertTrue(!(olist.isEmpty()));
 		
 	}
 
 	@Test
 	void testFindAll() {
-	List<User> olist = userRepo.findAll();
+	List<UserClass> olist = userRepo.findAll();
 		System.out.println(olist);
 		
 		}

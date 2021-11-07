@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.models.User;
+import com.revature.models.UserClass;
 import com.revature.repos.UserRepo;
 
 @Service
@@ -27,30 +27,30 @@ public class UserService {
 	
 
 	
-	public List<User> findByUsername(String username) { 
+	public List<UserClass> findByUsername(String username) { 
 		
-		Optional<List<User>> olist = userrepo.findByUsername(username);
+		Optional<List<UserClass>> olist = userrepo.findByUsername(username);
 		
-		return (olist.isPresent()) ? olist.get() : new ArrayList<User>();
+		return (olist.isPresent()) ? olist.get() : new ArrayList<UserClass>();
 		
 	}
 
-	public List<User> findAll() { return userrepo.findAll(); }
+	public List<UserClass> findAll() { return userrepo.findAll(); }
 	
-	public User findById(int ID) { 
+	public UserClass findById(int ID) { 
 		
-		Optional<User> userOpt = userrepo.findById(ID);
+		Optional<UserClass> userOpt = userrepo.findById(ID);
 		
-		User userID = userOpt.get();
+		UserClass userID = userOpt.get();
 		
 		return userID;
 		
 	}
 
 	// VV Use Save For Save And Update
-	public void addOrUpdateUser(User user) { userrepo.save(user); }
+	public void addOrUpdateUser(UserClass user) { userrepo.save(user); }
 	
-	public void deleteUser(int ID) { User user = findById(ID); userrepo.delete(user); }
+	public void deleteUser(int ID) { UserClass user = findById(ID); userrepo.delete(user); }
 	
 
 }

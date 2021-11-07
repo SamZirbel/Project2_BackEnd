@@ -6,28 +6,31 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 @Entity
 public class Favorite {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int fid;
 	
+	@JoinColumn(name="userId", referencedColumnName = "userId")
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private User user;
+	private UserClass user;
 	
+	@JoinColumn(name="movieId", referencedColumnName = "movieId")
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private Movie movie;
 
-	public Favorite(int id, User user, Movie movie) {
+	public Favorite(int fid, UserClass user, Movie movie) {
 		super();
-		this.id = id;
+		this.fid = fid;
 		this.user = user;
 		this.movie = movie;
 	}
 
-	public Favorite(User user, Movie movie) {
+	public Favorite(UserClass user, Movie movie) {
 		super();
 		this.user = user;
 		this.movie = movie;
@@ -35,38 +38,20 @@ public class Favorite {
 
 	public Favorite() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
+	@Override
+	public String toString() {
+		return "Favorite [fid=" + fid + ", user=" + user + ", movie=" + movie + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + fid;
+		result = prime * result + ((movie == null) ? 0 : movie.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -79,14 +64,21 @@ public class Favorite {
 		if (getClass() != obj.getClass())
 			return false;
 		Favorite other = (Favorite) obj;
-		if (id != other.id)
+		if (fid != other.fid)
+			return false;
+		if (movie == null) {
+			if (other.movie != null)
+				return false;
+		} else if (!movie.equals(other.movie))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Favorite [id=" + id + "]";
-	}
+	
 	
 }

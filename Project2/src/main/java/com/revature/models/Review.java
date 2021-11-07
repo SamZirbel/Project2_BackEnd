@@ -1,10 +1,12 @@
 package com.revature.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -14,76 +16,52 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private int rid;
     
-    @ManyToOne(fetch=FetchType.EAGER)
-    private User user;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="userId", referencedColumnName = "userId")
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private UserClass userclass;
+    
+    @JoinColumn(name="movieId", referencedColumnName = "movieId")
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Movie movie;
     
     private byte starRating;
+    
     private String review;
 
-    public Review(){
-
-    }
-
-    public Review(int id, User user, Movie movie, byte starRating, String review){
-        this.id = id;
-        this.user = user;
-        this.movie = movie;
-        this.starRating = starRating;
-        this.review = review;
-    }
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
+    
+    //constructors
+	public Review(int rid, UserClass userclass, Movie movie, byte starRating, String review) {
+		super();
+		this.rid = rid;
+		this.userclass = userclass;
 		this.movie = movie;
-	}
-
-	public byte getStarRating() {
-		return starRating;
-	}
-
-	public void setStarRating(byte starRating) {
 		this.starRating = starRating;
-	}
-
-	public String getReview() {
-		return review;
-	}
-
-	public void setReview(String review) {
 		this.review = review;
+	}
+
+	public Review(UserClass userclass, Movie movie, byte starRating, String review) {
+		super();
+		this.userclass = userclass;
+		this.movie = movie;
+		this.starRating = starRating;
+		this.review = review;
+	}
+
+	public Review() {
+		super();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((movie == null) ? 0 : movie.hashCode());
 		result = prime * result + ((review == null) ? 0 : review.hashCode());
+		result = prime * result + rid;
 		result = prime * result + starRating;
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((userclass == null) ? 0 : userclass.hashCode());
 		return result;
 	}
 
@@ -96,28 +74,34 @@ public class Review {
 		if (getClass() != obj.getClass())
 			return false;
 		Review other = (Review) obj;
-		if (id != other.id)
+		if (movie == null) {
+			if (other.movie != null)
+				return false;
+		} else if (!movie.equals(other.movie))
 			return false;
 		if (review == null) {
 			if (other.review != null)
 				return false;
 		} else if (!review.equals(other.review))
 			return false;
+		if (rid != other.rid)
+			return false;
 		if (starRating != other.starRating)
 			return false;
-		if (user == null) {
-			if (other.user != null)
+		if (userclass == null) {
+			if (other.userclass != null)
 				return false;
-		} else if (!user.equals(other.user))
+		} else if (!userclass.equals(other.userclass))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Review [id=" + id + ", user=" + user + ", starRating=" + starRating + ", review=" + review + "]";
+		return "Review [rid=" + rid + ", userclass=" + userclass + ", movie=" + movie + ", starRating=" + starRating
+				+ ", review=" + review + "]";
 	}
-    
-    
+
+   
 
 }
