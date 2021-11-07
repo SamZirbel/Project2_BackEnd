@@ -79,6 +79,30 @@ public class Favorite {
 		return true;
 	}
 
+	public int getFid() {
+		return fid;
+	}
+
+	public void setFid(int fid) {
+		this.fid = fid;
+	}
+
+	public UserClass getUser() {
+		return user;
+	}
+
+	public void setUser(UserClass user) {
+		this.user = user;
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
 	
 	
 }

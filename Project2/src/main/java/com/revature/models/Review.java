@@ -102,6 +102,46 @@ public class Review {
 				+ ", review=" + review + "]";
 	}
 
+	public int getRid() {
+		return rid;
+	}
+
+	public void setRid(int rid) {
+		this.rid = rid;
+	}
+
+	public UserClass getUserclass() {
+		return userclass;
+	}
+
+	public void setUserclass(UserClass userclass) {
+		this.userclass = userclass;
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
+	public byte getStarRating() {
+		return starRating;
+	}
+
+	public void setStarRating(byte starRating) {
+		this.starRating = starRating;
+	}
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+
    
 
 }
