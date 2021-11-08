@@ -17,8 +17,11 @@ import com.revature.repos.UserRepo;
 public class UserService {
 	private AES256 ae;
 	private UserRepo userrepo;
-
+	public UserService() {
+		super();
+	}
 	@Autowired
+	
 	public UserService(UserRepo userrepo, AES256 ae) {
 
 		super();
@@ -58,6 +61,9 @@ public class UserService {
 		return userID;
 
 	}
+	public void hello() {
+		System.out.println("hi");
+	}
 
 	@Modifying
 	@Transactional
@@ -68,9 +74,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public void deleteUser(int ID) {
+	public void deleteUser(int ID) throws Exception {
 		UserClass user = findById(ID);
-		userrepo.delete(user);
+		throw new Exception();
+		//userrepo.delete(user);
 	}
 
 }
