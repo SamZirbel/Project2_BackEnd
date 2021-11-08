@@ -67,10 +67,10 @@ public class UserService {
 
 	@Modifying
 	@Transactional
-	// VV Use Save For Save And Update
-	public void addOrUpdateUser(UserClass user) {
+	// Use Save For Save And Update
+	public UserClass addOrUpdateUser(UserClass user) {
 		user.setPassword(ae.encrypt(user.getPassword()));
-		userrepo.save(user);
+		return userrepo.save(user);
 	}
 
 	@Transactional
@@ -78,6 +78,14 @@ public class UserService {
 		UserClass user = findById(ID);
 		throw new Exception();
 		//userrepo.delete(user);
+	}
+	
+	@Modifying
+	@Transactional
+	public UserClass updateUser(int id, UserClass usr) {
+		// TODO Auto-generated method stub
+		
+		return userrepo.save(usr);
 	}
 
 }
