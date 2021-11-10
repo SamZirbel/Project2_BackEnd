@@ -19,7 +19,7 @@ import com.revature.services.UserService;
 
 
 @RestController
-//@RequestMapping(value = "/user")
+//@RequestMapping(value = "/public")
 public class UserController {
 	
 	private UserService userservice;
@@ -33,36 +33,29 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("/signup")
+	@PostMapping("/register")
 	public UserClass saveUser(@Valid  @RequestBody UserClass uc) {
 		
 		return userservice.addOrUpdateUser(uc);
 	}
 	
-	@GetMapping("/user")
-	public List<UserClass> fetchUser(){
-		return userservice.findAll();
-		
-	}
+	
 	@GetMapping("/user/{id}")
 	public UserClass fetchById(@PathVariable ("id") int id) {
 		return userservice.findById(id);
 	}
-	@DeleteMapping("/user/{id}")
-	public String deleteById(@PathVariable ("id") int id) {
-		try {
-			userservice.deleteUser(id);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		 return "deleted";
+	
+	@GetMapping("/user/{username}")
+	public UserClass fetchByUsername(@PathVariable ("username") String username) {
+		return userservice.findByUsername(username);
+	}
+	@GetMapping("/login")
+	public UserClass LoginDetail(@RequestBody UserClass logininfo) {
+		String username= "umer";
+		return userservice.findByUsername(username);
 	}
 	
-	@PutMapping("/user/{id}")
-	public UserClass UpdateUser(@PathVariable ("id") int id, @RequestBody UserClass usr) {
-		return userservice.updateUser(id,usr);
-	}
+	
 	
 	
 
