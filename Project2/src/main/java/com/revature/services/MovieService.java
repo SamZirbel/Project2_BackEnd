@@ -19,7 +19,7 @@ public class MovieService {
 	private MovieRepo movierepo;
 
 	@Autowired
-	public MovieService(MovieRepo movierepo, AES256 ae) {
+	public MovieService(MovieRepo movierepo) {
 
 		super();
 		this.movierepo = movierepo;

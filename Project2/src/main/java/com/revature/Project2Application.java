@@ -7,19 +7,17 @@ import org.springframework.context.annotation.Configuration;
 
 import com.revature.services.UserService;
 
-
-
 @SpringBootApplication
-
+@ComponentScan(basePackages = {
+	    "com.revature"
+})
 public class Project2Application {
 
 	public static void main(String[] args) {
 		
 		
 		SpringApplication.run(Project2Application.class, args);
-		UserService ur=new UserService();
 		
-		ur.hello();
 		
 	}
 

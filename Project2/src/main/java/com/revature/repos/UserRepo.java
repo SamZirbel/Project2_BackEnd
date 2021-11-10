@@ -14,10 +14,10 @@ import com.revature.models.UserClass;
 @Repository
 public interface UserRepo extends JpaRepository<UserClass, Integer> {  
 	
-	public Optional<List<UserClass>> findByUsername(String username);
+	public UserClass findByUsername(String username);
 	
-	@Query(value = "SELECT * FROM UserClass s WHERE s.username=:user AND s.password = :pass" , 
-			nativeQuery = true)
-	UserClass verifyLoginInfo(@Param("user") String user, @Param("pass") String pass);
-	
+//	@Query(value = "SELECT * FROM UserClass s WHERE s.username=:user AND s.password = :pass" , 
+//			nativeQuery = true)
+//	UserClass verifyLoginInfo(@Param("user") String user, @Param("pass") String pass);
+//	
 }

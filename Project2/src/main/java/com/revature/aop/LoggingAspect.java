@@ -15,7 +15,7 @@ public class LoggingAspect {
 	
 	private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 	
-	@Before("within(com.revature.services.*)")
+	@Before("execution(* com.revature.services.*.*(..))")
 	public void logServiceMethods(JoinPoint joinPoint) {
 		log.warn(joinPoint.getTarget() + " invoked ..................................." + joinPoint.getSignature() + " with param " + joinPoint.getArgs());
 	}

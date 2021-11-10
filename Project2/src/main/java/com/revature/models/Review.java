@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 public class Review {
@@ -20,9 +22,11 @@ public class Review {
     
     @JoinColumn(name="userId", referencedColumnName = "userId")
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
     private UserClass userclass;
     
     @JoinColumn(name="movieId", referencedColumnName = "movieId")
+    @JsonBackReference
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Movie movie;
     

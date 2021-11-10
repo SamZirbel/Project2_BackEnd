@@ -8,30 +8,47 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.UserClass;
 import com.revature.repos.UserRepo;
 
 @Service
-public class UserService {
-	private AES256 ae;
+@Component
+public class UserService implements UserDetailsService {
+	
 	private UserRepo userrepo;
 	public UserService() {
 		super();
 	}
 	@Autowired
 	
-	public UserService(UserRepo userrepo, AES256 ae) {
+	public UserService(UserRepo userrepo) {
 
 		super();
 		this.userrepo = userrepo;
-		this.ae = ae;
+		
 
 	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserClass user =userrepo.findByUsername(username);
+		if(user==null) {
+			throw new UsernameNotFoundException("Username not found");
+		}
+		
+
+		return new UserPrincipal(user);
+	}
+	
 //need to test this login method
 	public UserClass login(String username, String password) {
-		return userrepo.verifyLoginInfo(username, ae.encrypt(password));	 
+		return null;//userrepo.verifyLoginInfo(username, ae.encrypt(password));	 
 	}
 
 	@Modifying
@@ -43,11 +60,11 @@ public class UserService {
 		return false;
 	}
 
-	public List<UserClass> findByUsername(String username) {
+	public UserClass findByUsername(String username) {
 
-		Optional<List<UserClass>> olist = userrepo.findByUsername(username);
+		UserClass olist = userrepo.findByUsername(username);
 
-		return (olist.isPresent()) ? olist.get() : new ArrayList<UserClass>();
+		return olist;
 
 	}
 
@@ -69,7 +86,7 @@ public class UserService {
 	@Transactional
 	// Use Save For Save And Update
 	public UserClass addOrUpdateUser(UserClass user) {
-		user.setPassword(ae.encrypt(user.getPassword()));
+		user.setPassword(user.getPassword());
 		return userrepo.save(user);
 	}
 
@@ -87,5 +104,6 @@ public class UserService {
 		
 		return userrepo.save(usr);
 	}
+	
 
 }

@@ -19,7 +19,7 @@ public class FavoriteService {
 	private FavoriteRepo favoriterepo;
 
 	@Autowired
-	public FavoriteService(FavoriteRepo favoriterepo, AES256 ae) {
+	public FavoriteService(FavoriteRepo favoriterepo) {
 
 		super();
 		this.favoriterepo = favoriterepo;

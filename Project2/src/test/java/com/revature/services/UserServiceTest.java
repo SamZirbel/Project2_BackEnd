@@ -25,12 +25,12 @@ class UserServiceTest {
 	@Test
 	void testFindByUsername() {
 
-		Optional<List<UserClass>> olist = userrepo.findByUsername("Sample");
+		UserClass olist = userrepo.findByUsername("Sample");
 		
 		System.err.println(olist);
 
 		
-		assertTrue(!(olist.isEmpty()));
+	
 
 	}
 

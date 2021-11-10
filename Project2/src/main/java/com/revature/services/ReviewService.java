@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class ReviewService {
 	private ReviewRepo reviewrepo;
 
 	@Autowired
-	public ReviewService(ReviewRepo reviewrepo, AES256 ae) {
+	public ReviewService(ReviewRepo reviewrepo) {
 
 		super();
 		this.reviewrepo = reviewrepo;
