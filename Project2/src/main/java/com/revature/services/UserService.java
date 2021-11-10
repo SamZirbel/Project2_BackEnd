@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -20,42 +21,43 @@ import com.revature.repos.UserRepo;
 @Service
 @Component
 public class UserService implements UserDetailsService {
-	
+
 	private UserRepo userrepo;
+	@Autowired
+	private BCryptPasswordEncoder bc;
+
 	public UserService() {
 		super();
 	}
+
 	@Autowired
-	
+
 	public UserService(UserRepo userrepo) {
 
 		super();
 		this.userrepo = userrepo;
-		
 
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserClass user =userrepo.findByUsername(username);
-		if(user==null) {
+		UserClass user = userrepo.findByUsername(username);
+		if (user == null) {
 			throw new UsernameNotFoundException("Username not found");
 		}
-		
 
 		return new UserPrincipal(user);
 	}
-	
+
 //need to test this login method
 	public UserClass login(String username, String password) {
-		return null;//userrepo.verifyLoginInfo(username, ae.encrypt(password));	 
+		return null;// userrepo.verifyLoginInfo(username, ae.encrypt(password));
 	}
 
 	@Modifying
 	@Transactional
 	public boolean forgetPasword(String username, String displayname) {
-		
-		
+
 		// need implementation
 		return false;
 	}
@@ -78,6 +80,7 @@ public class UserService implements UserDetailsService {
 		return userID;
 
 	}
+
 	public void hello() {
 		System.out.println("hi");
 	}
@@ -85,8 +88,8 @@ public class UserService implements UserDetailsService {
 	@Modifying
 	@Transactional
 	// Use Save For Save And Update
-	public UserClass addOrUpdateUser(UserClass user) {
-		user.setPassword(user.getPassword());
+	public UserClass addUser(UserClass user) {
+		user.setPassword(bc.encode(user.getPassword()));
 		return userrepo.save(user);
 	}
 
@@ -94,16 +97,15 @@ public class UserService implements UserDetailsService {
 	public void deleteUser(int ID) throws Exception {
 		UserClass user = findById(ID);
 		throw new Exception();
-		//userrepo.delete(user);
+		// userrepo.delete(user);
 	}
-	
+
 	@Modifying
 	@Transactional
 	public UserClass updateUser(int id, UserClass usr) {
 		// TODO Auto-generated method stub
-		
+
 		return userrepo.save(usr);
 	}
-	
 
 }

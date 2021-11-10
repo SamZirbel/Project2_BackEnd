@@ -35,7 +35,7 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(10);
 	}
 
@@ -43,16 +43,26 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// TODO Auto-generated method stub
+		
 		super.configure(auth);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers( "/**").permitAll().anyRequest().authenticated().and()
-				.formLogin().loginPage("/login").permitAll().and().logout().invalidateHttpSession(true)
-				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/logout-success").permitAll();
+//		http
+//		.csrf().disable()
+//		.authorizeRequests().antMatchers( "/**").permitAll().anyRequest().authenticated().and()
+//				.formLogin().loginPage("/login").permitAll().and()
+//				.logout().invalidateHttpSession(true)
+//				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//				.logoutSuccessUrl("/logout-success").permitAll();
+		
+				http
+				.httpBasic()
+				.and()
+				.authorizeRequests()
+				.antMatchers("/**").permitAll()
+				.anyRequest().authenticated();
 	}
 
 }
