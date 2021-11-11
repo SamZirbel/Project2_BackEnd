@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.revature.util.filter.JwtFilter;
+import com.revature.services.util.filter.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +29,7 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtFilter jwtFilter;
-	
+
 //	 @Autowired
 //	    private MyAuthProvider myCustomAuthenticationProvider;
 //
@@ -39,32 +39,21 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 //	        auth.authenticationProvider(myCustomAuthenticationProvider);
 //	    }
 
-	    @Bean
-	    public PasswordEncoder passwordEncoder() {
-	    	return new BCryptPasswordEncoder();
-	    }
-	    
 	@Bean
-	public AuthenticationProvider authProvider() {
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationProvider authProvider() throws Exception{
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setUserDetailsService(uds);
-		//provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 		provider.setPasswordEncoder(passwordEncoder());
-		
 		return provider;
 	}
 
-
-	
-	
-	
-	
-
-
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 
 		http.csrf().disable().authorizeRequests().antMatchers("/loginauth", "/passupdate", "/register").permitAll()
 				.anyRequest().authenticated().and().exceptionHandling().and().sessionManagement()

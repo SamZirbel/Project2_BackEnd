@@ -1,4 +1,4 @@
-package com.revature.util.filter;
+package com.revature.services.util.filter;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.revature.services.UserService;
-import com.revature.util.JwtUtil;
+import com.revature.services.util.JwtUtil;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
