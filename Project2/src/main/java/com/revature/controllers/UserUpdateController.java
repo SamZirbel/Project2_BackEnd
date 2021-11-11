@@ -29,7 +29,7 @@ public class UserUpdateController {
 		this.userservice = userservice;
 	}
 	
-	@DeleteMapping("/user/{id}")
+	@DeleteMapping("/deluser/{id}")
 	public String deleteById(@PathVariable ("id") int id) {
 		try {
 			userservice.deleteUser(id);
@@ -40,12 +40,14 @@ public class UserUpdateController {
 		 return "deleted";
 	}
 	
-	@PutMapping("/user/{id}")
-	public UserClass updateUser(@PathVariable ("id") int id, @RequestBody UserClass usr) {
-		return userservice.updateUser(id,usr);
+	@PutMapping("/update")
+	public UserClass updateUser( @RequestBody UserClass usr) {
+		return userservice.updateUser(usr);
 	}
 	
-	@GetMapping("/user")
+	
+	
+	@GetMapping("/alluser")
 	public List<UserClass> fetchUser(){
 		return userservice.findAll();
 		

@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class UserService implements UserDetailsService {
 
 	private UserRepo userrepo;
 	@Autowired
-	private BCryptPasswordEncoder bc;
+	private PasswordEncoder bc;
 
 	public UserService() {
 		super();
@@ -41,6 +40,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
 		UserClass user = userrepo.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("Username not found");
@@ -49,10 +49,10 @@ public class UserService implements UserDetailsService {
 		return new UserPrincipal(user);
 	}
 
-//need to test this login method
-	public UserClass login(String username, String password) {
-		return null;// userrepo.verifyLoginInfo(username, ae.encrypt(password));
-	}
+////need to test this login method
+//	public UserClass login(String username, String password) {
+//		return  userrepo.verifyLoginInfo(username, ae.encrypt(password));
+//	}
 
 	@Modifying
 	@Transactional
@@ -81,10 +81,6 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public void hello() {
-		System.out.println("hi");
-	}
-
 	@Modifying
 	@Transactional
 	// Use Save For Save And Update
@@ -102,9 +98,13 @@ public class UserService implements UserDetailsService {
 
 	@Modifying
 	@Transactional
-	public UserClass updateUser(int id, UserClass usr) {
-		// TODO Auto-generated method stub
+	public UserClass updateUser(UserClass usr) {
+		return userrepo.save(usr);
+	}
 
+	@Modifying
+	@Transactional
+	public UserClass updatePass(UserClass usr) {
 		return userrepo.save(usr);
 	}
 
