@@ -46,6 +46,11 @@ public class UserController {
 	public UserClass saveUser(@Valid @RequestBody UserClass uc) {
 		return userservice.addUser(uc);
 	}
+	
+	@PostMapping("/welcome")
+	public String welcome( ) {
+		return "Welcome! you are log in";
+	}
 
 	@GetMapping("/user/{username}")
 	public UserClass fetchByUsername(@PathVariable("username") String username) {

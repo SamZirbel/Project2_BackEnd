@@ -3,6 +3,7 @@ package com.revature.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -54,10 +55,12 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		http.csrf().disable().authorizeRequests().antMatchers("/loginauth", "/passupdate", "/register").permitAll()
-				.anyRequest().authenticated().and().exceptionHandling().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors().disable();
+		http.csrf().disable().authorizeRequests().antMatchers("/loginauth", "/passupdate", "/register","/**").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/**")
+		.permitAll().anyRequest().authenticated()
+		.and().exceptionHandling().and().sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
