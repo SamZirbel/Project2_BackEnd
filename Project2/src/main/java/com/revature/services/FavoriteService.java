@@ -26,19 +26,34 @@ public class FavoriteService {
 
 	}
 
-	public List<Favorite> findAll() { return favoriterepo.findAll(); }
+	public List<Favorite> findAll() { 
+		return favoriterepo.findAll(); 
+	}
+	
+	
 
 	public Favorite findById(int ID) {
-		Optional<Favorite> favoriteOpt = favoriterepo.findById(ID);
-		Favorite favoriteID = favoriteOpt.get();
-		return favoriteID;
-
+		return favoriterepo.findById(ID).get();
+	}
+	
+	public List<Favorite> findByUserID(int id) {
+		Optional<List<Favorite>> oList = favoriterepo.findByUserID(id);
+		if (oList.isPresent()) {
+			List<Favorite> list = oList.get();
+			if (list.size() == 0) {
+				throw new IllegalArgumentException("No Favorites!");
+			}
+			return list;
+		}
+		return new ArrayList<Favorite>();
 	}
 
 	@Modifying
 	@Transactional
 	// VV Use Save For Save And Update
-	public void addOrUpdateFavorite(Favorite favorite) { favoriterepo.save(favorite); }
+	public void addOrUpdateFavorite(Favorite favorite) {
+		favoriterepo.save(favorite); 
+	}
 
 	@Transactional
 	public void deleteFavorite(int ID) {
