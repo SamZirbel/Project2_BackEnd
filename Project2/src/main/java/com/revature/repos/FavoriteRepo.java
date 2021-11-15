@@ -11,5 +11,6 @@ import com.revature.models.Favorite;
 @Repository
 public interface FavoriteRepo extends JpaRepository<Favorite, Integer> {
 
-	public Optional<List<Favorite>> findByUserID(int id);
+	public Optional<List<Favorite>> findByUser_userId(int id);
+	public Optional<List<Favorite>> findByMovie_movieId(int id);
 }

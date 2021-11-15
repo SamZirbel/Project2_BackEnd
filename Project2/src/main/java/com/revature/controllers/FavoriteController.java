@@ -47,8 +47,13 @@ public class FavoriteController {
 	}
 	
 	@GetMapping("/user/{id}")
-	public List<Favorite> favoritesByUserID(@PathVariable("id") int id) {
-		return favoriteservice.findByUserID(id);
+	public List<Favorite> favoritesByuser(@PathVariable("id") int id) {
+		return favoriteservice.findByUser_userId(id);
+	}
+	
+	@GetMapping("/movie/{id}")
+	public List<Favorite> favoritesBymovie(@PathVariable("id") int id) {
+		return favoriteservice.findByMovie_movieId(id);
 	}
 	
 	@PostMapping

@@ -36,8 +36,20 @@ public class FavoriteService {
 		return favoriterepo.findById(ID).get();
 	}
 	
-	public List<Favorite> findByUserID(int id) {
-		Optional<List<Favorite>> oList = favoriterepo.findByUserID(id);
+	public List<Favorite> findByUser_userId(int id) {
+		Optional<List<Favorite>> oList = favoriterepo.findByUser_userId(id);
+		if (oList.isPresent()) {
+			List<Favorite> list = oList.get();
+			if (list.size() == 0) {
+				throw new IllegalArgumentException("No Favorites!");
+			}
+			return list;
+		}
+		return new ArrayList<Favorite>();
+	}
+	
+	public List<Favorite> findByMovie_movieId(int id) {
+		Optional<List<Favorite>> oList = favoriterepo.findByMovie_movieId(id);
 		if (oList.isPresent()) {
 			List<Favorite> list = oList.get();
 			if (list.size() == 0) {
