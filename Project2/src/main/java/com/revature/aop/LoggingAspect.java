@@ -1,10 +1,9 @@
 package com.revature.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,10 +14,31 @@ public class LoggingAspect {
 	
 	private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 	
+//<<<<<<< Updated upstream
 	@Before("execution(* com.revature.services.*.*(..))")
+//=======
+	//private UserService userservice;
+	
+	
+	//@Pointcut("execution(* com.revature.services.UserService.hello())")
+	//private void selectGetName() {}
+	
+	
+	//@Before("execution(* com.revature.services.*)")//"selectGetName()")//"within(com.revature.services.*)")
+//>>>>>>> Stashed changes
 	public void logServiceMethods(JoinPoint joinPoint) {
+		
+		
+		
+		System.err.println("Red Line Here");
+		
 		log.warn(joinPoint.getTarget() + " invoked ..................................." + joinPoint.getSignature() + " with param " + joinPoint.getArgs());
+	
+	
 	}
+	//*/
+	
+	
 	
 //	@AfterReturning(pointcut="execution(* findBySuperheroName(..))", returning="returnedObject")
 //	public void logSearchBySupName(JoinPoint joinPoint, Object returnedObject) {
