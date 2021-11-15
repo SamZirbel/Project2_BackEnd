@@ -3,9 +3,6 @@ package com.revature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
-import com.revature.services.UserService;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
@@ -13,6 +10,9 @@ import com.revature.services.UserService;
 })
 public class Project2Application {
 
+	//@Autowired
+	//private static UserService ur;
+	
 	public static void main(String[] args) {
 		
 		
