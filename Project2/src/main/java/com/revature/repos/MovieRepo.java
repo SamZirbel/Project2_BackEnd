@@ -13,6 +13,8 @@ import com.revature.models.UserClass;
 public interface MovieRepo extends JpaRepository<Movie, Integer> {
 
 	public Optional<List<Movie>> findByTitle(String movieTitle);
+	
+	public Optional<Movie> findByimdbId(String imdbId);
 
 	
 }
