@@ -1,10 +1,13 @@
 package com.revature.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +40,12 @@ public class ReviewController {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok(list);
+	}
+
+	@PostMapping("/addReview/{review}")
+	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
+		reviewservice.addOrUpdateReview(review);
+		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
 	}
 
 	/* Note For Writing Paths:
