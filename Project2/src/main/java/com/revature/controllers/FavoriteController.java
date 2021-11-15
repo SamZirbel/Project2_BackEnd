@@ -1,10 +1,22 @@
 package com.revature.controllers;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.models.Favorite;
 import com.revature.services.FavoriteService;
 
 
@@ -21,6 +33,45 @@ public class FavoriteController {
 		super ();
 		this.favoriteservice = favoriteservice;
 		
+	}
+	
+	@GetMapping
+	public List<Favorite> allFavorites() {
+		return favoriteservice.findAll();
+	}
+	
+	@GetMapping("/{id}")
+	public Favorite oneFavorite(@PathVariable("id") int id) {
+		Favorite favorite = favoriteservice.findById(id);
+		return favorite;
+	}
+	
+	@GetMapping("/user/{id}")
+	public List<Favorite> favoritesByuser(@PathVariable("id") int id) {
+		return favoriteservice.findByUser_userId(id);
+	}
+	
+	@GetMapping("/movie/{id}")
+	public List<Favorite> favoritesBymovie(@PathVariable("id") int id) {
+		return favoriteservice.findByMovie_movieId(id);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Favorite> addFavorite(@RequestBody Favorite fav) {
+		favoriteservice.addOrUpdateFavorite(fav);
+		return ResponseEntity.status(201).build();
+	}
+	
+	@PutMapping
+	public ResponseEntity<Favorite> updateFavorite(@RequestBody Favorite fav) {
+		favoriteservice.addOrUpdateFavorite(fav);
+		return ResponseEntity.status(200).build();
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Favorite> deleteFavorite(@PathVariable("id") int id) {
+		favoriteservice.deleteFavorite(id);
+		return ResponseEntity.status(201).build();
 	}
 	
 

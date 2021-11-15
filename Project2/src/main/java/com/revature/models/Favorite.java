@@ -19,11 +19,12 @@ public class Favorite {
 	
 	@JoinColumn(name="userId", referencedColumnName = "userId")
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+//	@JsonBackReference
 	private UserClass user;
 	
 	@JoinColumn(name="movieId", referencedColumnName = "movieId")
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JsonBackReference
+//	@JsonBackReference
 	private Movie movie;
 
 	public Favorite(int fid, UserClass user, Movie movie) {
