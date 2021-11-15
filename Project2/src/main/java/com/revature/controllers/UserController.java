@@ -5,6 +5,8 @@ import java.security.Principal;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,10 +48,11 @@ public class UserController {
 	public UserClass saveUser(@Valid @RequestBody UserClass uc) {
 		return userservice.addUser(uc);
 	}
-	
+
 	@PostMapping("/welcome")
-	public String welcome( ) {
-		return "Welcome! you are log in";
+	public ResponseEntity<String> welcome(UserClass uc) {
+		System.out.println(uc.getUsername());
+		return ResponseEntity.status(201).body("Welcome you are finally in");
 	}
 
 	@GetMapping("/user/{username}")
@@ -59,18 +62,17 @@ public class UserController {
 
 	@RequestMapping("/userlogin")
 	public Principal user(Principal user) {
-		System.out.println(user.getName());
-		System.out.println("......................................");
+
 		return user;
 	}
 
-	@PutMapping("/passupdate")
-	public UserClass updatePass(@RequestBody UserClass usr) {
-		return userservice.updatePass(usr);
+	@PutMapping("/passupdate/{id}")
+	public UserClass updatePass(@PathVariable("id") int id, @RequestBody UserClass usr) {
+		return userservice.updatePass(id, usr);
 	}
 
 	@PostMapping("/loginauth")
-	public String generateToken(@RequestBody UserClass authRequest) throws Exception {
+	public ResponseEntity<String> generateToken(@RequestBody UserClass authRequest) throws Exception {
 		try {
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 					authRequest.getUsername(), authRequest.getPassword());
@@ -78,9 +80,10 @@ public class UserController {
 			pm.authenticate(token);
 
 		} catch (Exception ex) {
-			throw new Exception("inavalid username/password");
+			ex.getStackTrace();
+			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
-		return jwtUtil.generateToken(authRequest.getUsername());
+		return new ResponseEntity<String>((jwtUtil.generateToken(authRequest.getUsername())), HttpStatus.ACCEPTED);
 	}
 
 }

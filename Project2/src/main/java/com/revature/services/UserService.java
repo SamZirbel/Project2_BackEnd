@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -104,8 +105,17 @@ public class UserService implements UserDetailsService {
 
 	@Modifying
 	@Transactional
-	public UserClass updatePass(UserClass usr) {
-		return userrepo.save(usr);
+	public UserClass updatePass(int id, UserClass usr) {
+		UserClass dep= userrepo.getById(id);
+		
+		if(Objects.nonNull(usr.getUsername())&& !"".equalsIgnoreCase(usr.getUsername())) {
+			dep.setUsername(usr.getUsername());
+		}
+		if(Objects.nonNull(usr.getPassword())&& !"".equalsIgnoreCase(usr.getPassword())) {
+			dep.setPassword(bc.encode(usr.getPassword()));
+		}
+		
+		return userrepo.save(dep);
 	}
 
 }
