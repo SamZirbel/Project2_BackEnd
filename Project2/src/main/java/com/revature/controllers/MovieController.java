@@ -37,7 +37,7 @@ public class MovieController {
 		
 		System.err.println(movie);
 
-		movieservice.singleAdd(movie);
+		//movieservice.singleAdd(movie);
 		
 		//trainerservice.addTrainer(trainer);
 		 return ResponseEntity.status(200).build();

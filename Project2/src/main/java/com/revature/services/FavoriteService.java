@@ -76,11 +76,17 @@ public class FavoriteService {
 	// VV Use Save For Save And Update
 	public void addOrUpdateFavorite(userDTO userDTO) {
 		UserClass user = userService.findByUsername(userDTO.username);
-		movieService.addOrUpdateMovie(userDTO.movie);
+		//if (movieService.findByimdbId(userDTO.movie.getImdbId()).get() == null){
+			movieService.addOrUpdateMovie(userDTO.movie);
+		//}
+		
+		
+		
 		Movie movie = movieService.findByimdbId(userDTO.movie.getImdbId()).get();
 		Favorite fav = new Favorite(user, movie);
 		System.out.println(fav);
 		favoriterepo.save(fav); 
+		
 	}
 
 	@Transactional
