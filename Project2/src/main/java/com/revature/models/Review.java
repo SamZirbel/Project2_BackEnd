@@ -30,13 +30,13 @@ public class Review {
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Movie movie;
     
-    private byte starRating;
+    private int starRating;
     
     private String review;
 
     
     //constructors
-	public Review(int rid, UserClass userclass, Movie movie, byte starRating, String review) {
+	public Review(int rid, UserClass userclass, Movie movie, int starRating, String review) {
 		super();
 		this.rid = rid;
 		this.userclass = userclass;
@@ -45,7 +45,7 @@ public class Review {
 		this.review = review;
 	}
 
-	public Review(UserClass userclass, Movie movie, byte starRating, String review) {
+	public Review(UserClass userclass, Movie movie, int starRating, String review) {
 		super();
 		this.userclass = userclass;
 		this.movie = movie;
@@ -130,11 +130,11 @@ public class Review {
 		this.movie = movie;
 	}
 
-	public byte getStarRating() {
+	public int getStarRating() {
 		return starRating;
 	}
 
-	public void setStarRating(byte starRating) {
+	public void setStarRating(int starRating) {
 		this.starRating = starRating;
 	}
 
