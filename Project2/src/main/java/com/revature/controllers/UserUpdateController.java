@@ -1,8 +1,11 @@
 package com.revature.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +33,15 @@ public class UserUpdateController {
 	}
 	
 	@DeleteMapping("/deluser/{id}")
-	public String deleteById(@PathVariable ("id") int id) {
+	public ResponseEntity<?> deleteById(@PathVariable ("id") int id) {
 		try {
 			userservice.deleteUser(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
-			
 			e.printStackTrace();
+			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		 return "deleted";
+		
 	}
 	
 	@PutMapping("/update")
@@ -48,8 +52,11 @@ public class UserUpdateController {
 	
 	
 	@GetMapping("/alluser")
-	public List<UserClass> fetchUser(){
-		return userservice.findAll();
-		
+	public ResponseEntity<List<UserClass>> fetchUser(){
+		List<UserClass> list= userservice.findAll();
+		if(list.size()<=0) {
+			ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		return ResponseEntity.of(Optional.of(list));
 	}
 }

@@ -58,7 +58,8 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 //		return new WebMvcConfigurer() {
 //			@Override
 //			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**").allowedHeaders("*").allowedOrigins("*").allowedMethods("*").allowCredentials(true);
+//				registry.addMapping("/**").allowedHeaders("*").allowedOrigins("http://localhost:4200").allowedMethods("*")
+//				.allowCredentials(true);
 //			}
 //		};
 //	}
@@ -66,7 +67,7 @@ public class UserAuthConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable();
-		http.csrf().disable().authorizeRequests().antMatchers("/loginauth", "/passupdate", "/register","/**").permitAll()
+		http.csrf().disable().authorizeRequests().antMatchers("/loginauth", "/passupdate/**", "/register", "/user/**").permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "/**")
 		.permitAll().anyRequest().authenticated()
 		.and().exceptionHandling().and().sessionManagement()

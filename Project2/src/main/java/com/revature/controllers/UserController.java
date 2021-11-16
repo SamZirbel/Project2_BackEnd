@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import java.security.Principal;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -45,8 +46,16 @@ public class UserController {
 	// Rest Controller methods.......................
 
 	@PostMapping("/register")
-	public UserClass saveUser(@Valid @RequestBody UserClass uc) {
-		return userservice.addUser(uc);
+	public ResponseEntity<UserClass> saveUser(@Valid @RequestBody UserClass uc) {
+		UserClass u = null;
+		try {
+			u = userservice.addUser(uc);
+			return ResponseEntity.ok().body(u);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
 
 	@PostMapping("/welcome")
@@ -56,8 +65,12 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{username}")
-	public UserClass fetchByUsername(@PathVariable("username") String username) {
-		return userservice.findByUsername(username);
+	public ResponseEntity<UserClass> fetchByUsername(@PathVariable("username") String username) {
+		UserClass u= userservice.findByUsername(username);
+		if(u==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		return ResponseEntity.of(Optional.of(u)); 
 	}
 
 	@RequestMapping("/userlogin")
@@ -67,8 +80,15 @@ public class UserController {
 	}
 
 	@PutMapping("/passupdate/{id}")
-	public UserClass updatePass(@PathVariable("id") int id, @RequestBody UserClass usr) {
-		return userservice.updatePass(id, usr);
+	public ResponseEntity<UserClass> updatePass(@PathVariable("id") int id, @RequestBody UserClass usr) {
+		UserClass u=null;
+		try {
+			u = userservice.updatePass(id, usr);
+			return ResponseEntity.ok().body(u);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@PostMapping("/loginauth")
