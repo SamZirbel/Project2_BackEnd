@@ -49,6 +49,7 @@ public class FavoriteController {
 	
 	@GetMapping("/user/{id}")
 	public List<Favorite> favoritesByuser(@PathVariable("id") int id) {
+		System.out.println(favoriteservice.findByUser_userId(id));
 		return favoriteservice.findByUser_userId(id);
 	}
 	
