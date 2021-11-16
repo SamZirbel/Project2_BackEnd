@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.services.MovieService;
 import com.revature.services.ReviewService;
 import com.revature.models.Movie;
 import com.revature.models.Review;
@@ -23,6 +24,7 @@ public class ReviewController {
 	
 
 	private ReviewService reviewservice;
+	private MovieService movieservice;
 	
 	@Autowired
 	public ReviewController(ReviewService reviewservice) {
@@ -44,6 +46,7 @@ public class ReviewController {
 
 	@PostMapping("/addReview")
 	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
+		movieservice.addOrUpdateMovie(review.getMovie());
 		reviewservice.addOrUpdateReview(review);
 		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
 	}
