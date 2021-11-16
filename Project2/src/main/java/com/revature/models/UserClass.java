@@ -44,6 +44,7 @@ public class UserClass {
 		this.password = password;
 	}
 	
+	
 	public UserClass(String username, String password, String email, String phone, String securityQuestion) {
 		super();
 		this.username = username;
