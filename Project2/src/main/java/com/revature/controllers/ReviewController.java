@@ -16,6 +16,8 @@ import com.revature.services.ReviewService;
 import com.revature.models.Movie;
 import com.revature.models.Review;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,21 +29,28 @@ public class ReviewController {
 	private MovieService movieservice;
 	
 	@Autowired
-	public ReviewController(ReviewService reviewservice) {
+	public ReviewController(ReviewService reviewservice, MovieService movieservice) {
 		
 		super ();
 		this.reviewservice = reviewservice;
+		this.movieservice = movieservice;
 		
 	}
 
-	@GetMapping("/reviewsByMovie/{movie}")
-	public ResponseEntity<List<Review>> fetchReviewsByMovie(@PathVariable("movie") Movie movie){
-		List<Review> list = reviewservice.findByMovie(movie);
+	@GetMapping("/reviewsByMovie/{movieid}")
+	public ResponseEntity<List<Review>> fetchReviewsByMovie(@PathVariable("movieid") String movieId){
+		try {
+			Movie movie = movieservice.findByimdbId(movieId).get();
+			List<Review> list = reviewservice.findByMovie(movie);
 		
-		if(list.isEmpty()){
-			return ResponseEntity.noContent().build();
+			if(list.isEmpty()){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.ok(list);
+		} catch (NoSuchElementException e){
+			e.printStackTrace();
 		}
-		return ResponseEntity.ok(list);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/addReview")
