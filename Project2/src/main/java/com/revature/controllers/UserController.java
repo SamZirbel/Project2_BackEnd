@@ -81,8 +81,10 @@ public class UserController {
 
 		} catch (Exception ex) {
 			ex.getStackTrace();
+			System.out.println(HttpStatus.UNAUTHORIZED);
 			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
+		System.out.println(HttpStatus.ACCEPTED);
 		return new ResponseEntity<String>((jwtUtil.generateToken(authRequest.getUsername())), HttpStatus.ACCEPTED);
 	}
 

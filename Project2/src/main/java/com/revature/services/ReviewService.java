@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import com.revature.models.Movie;
 import com.revature.models.Review;
 import com.revature.repos.ReviewRepo;
 
@@ -43,6 +44,10 @@ public class ReviewService {
 	public void deleteReview(int ID) {
 		Review review = findById(ID);
 		reviewrepo.delete(review);
+	}
+
+	public List<Review> findByMovie(Movie movie){
+		return reviewrepo.findByMovie(movie);
 	}
 
 }

@@ -8,10 +8,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+//<<<<<<< Updated upstream
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+//=======
+//>>>>>>> Stashed changes
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +33,12 @@ public class UserService implements UserDetailsService {
 		super();
 	}
 
+
 	@Autowired
 
 	public UserService(UserRepo userrepo) {
+
+	
 
 		super();
 		this.userrepo = userrepo;
@@ -81,6 +87,15 @@ public class UserService implements UserDetailsService {
 		return userID;
 
 	}
+
+	
+	@Autowired
+	public void hello() {
+		System.out.println("hi");
+	}
+	
+	
+
 
 	@Modifying
 	@Transactional
