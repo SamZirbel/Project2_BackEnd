@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Favorite;
+import com.revature.models.userDTO;
 import com.revature.services.FavoriteService;
 
 
@@ -48,6 +49,7 @@ public class FavoriteController {
 	
 	@GetMapping("/user/{id}")
 	public List<Favorite> favoritesByuser(@PathVariable("id") int id) {
+		System.out.println(favoriteservice.findByUser_userId(id));
 		return favoriteservice.findByUser_userId(id);
 	}
 	
@@ -57,22 +59,26 @@ public class FavoriteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Favorite> addFavorite(@RequestBody Favorite fav) {
-		favoriteservice.addOrUpdateFavorite(fav);
+	public ResponseEntity<Favorite> addFavorite(@RequestBody userDTO userdto) {
+		System.out.println(userdto.movie);
+		
+		favoriteservice.addOrUpdateFavorite(userdto);
 		return ResponseEntity.status(201).build();
 	}
 	
-	@PutMapping
-	public ResponseEntity<Favorite> updateFavorite(@RequestBody Favorite fav) {
-		favoriteservice.addOrUpdateFavorite(fav);
-		return ResponseEntity.status(200).build();
-	}
+//	@PutMapping
+//	public ResponseEntity<Favorite> updateFavorite(@RequestBody Favorite fav) {
+//		favoriteservice.addOrUpdateFavorite(fav);
+//		return ResponseEntity.status(200).build();
+//	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Favorite> deleteFavorite(@PathVariable("id") int id) {
-		favoriteservice.deleteFavorite(id);
-		return ResponseEntity.status(201).build();
-	}
+//	@PostMapping("/{uid}/{mid]")
+//	public ResponseEntity<Favorite> deleteFavorite(@PathVariable("uid") int uid, @PathVariable("mid") String mid) {
+//		System.out.println(uid);
+//		System.out.println(mid);
+////		favoriteservice.deleteFavorite(uid, mid);
+//		return ResponseEntity.status(201).build();
+//	}
 	
 
 	/* Note For Writing Paths:

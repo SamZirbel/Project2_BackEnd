@@ -11,18 +11,25 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Favorite;
+import com.revature.models.Movie;
+import com.revature.models.UserClass;
+import com.revature.models.userDTO;
 import com.revature.repos.FavoriteRepo;
 
 @Service
 public class FavoriteService {
 	
 	private FavoriteRepo favoriterepo;
+	private UserService userService;
+	private MovieService movieService;
 
 	@Autowired
-	public FavoriteService(FavoriteRepo favoriterepo) {
+	public FavoriteService(FavoriteRepo favoriterepo, UserService userService, MovieService movieService) {
 
 		super();
 		this.favoriterepo = favoriterepo;
+		this.userService = userService;
+		this.movieService = movieService;
 
 	}
 
@@ -59,18 +66,29 @@ public class FavoriteService {
 		}
 		return new ArrayList<Favorite>();
 	}
+	
+//	public Favorite findByUser_userIdAndMovie_movieId(int uid, int mid) {
+//		Favorite fav = favoriterepo.find
+//	}
 
 	@Modifying
 	@Transactional
 	// VV Use Save For Save And Update
-	public void addOrUpdateFavorite(Favorite favorite) {
-		favoriterepo.save(favorite); 
+	public void addOrUpdateFavorite(userDTO userDTO) {
+		UserClass user = userService.findByUsername(userDTO.username);
+		movieService.addOrUpdateMovie(userDTO.movie);
+		Movie movie = movieService.findByimdbId(userDTO.movie.getImdbId()).get();
+		Favorite fav = new Favorite(user, movie);
+		System.out.println(fav);
+		favoriterepo.save(fav); 
 	}
 
 	@Transactional
-	public void deleteFavorite(int ID) {
-		Favorite favorite = findById(ID);
-		favoriterepo.delete(favorite);
+	public void deleteFavorite(Favorite favorite) {
+		System.out.println(favorite);
+		Favorite fav = favoriterepo.findByUser_userIdAndMovie_movieId(favorite.getUser().getUserId(), favorite.getMovie().getMovieId()).get();
+		System.out.println(fav);
+		favoriterepo.delete(fav);
 	}
 
 }
