@@ -49,6 +49,9 @@ public class FavoriteController {
 	
 	@GetMapping("/user/{id}")
 	public List<Favorite> favoritesByuser(@PathVariable("id") int id) {
+		
+		//System.err.println("Finding Favorites By User ID");
+		
 		System.out.println(favoriteservice.findByUser_userId(id));
 		return favoriteservice.findByUser_userId(id);
 	}
@@ -60,7 +63,7 @@ public class FavoriteController {
 	
 	@PostMapping
 	public ResponseEntity<Favorite> addFavorite(@RequestBody userDTO userdto) {
-		System.out.println(userdto.movie);
+		//System.err.println(userdto.movie);
 		
 		favoriteservice.addOrUpdateFavorite(userdto);
 		return ResponseEntity.status(201).build();
