@@ -42,7 +42,7 @@ public class ReviewController {
 		return ResponseEntity.ok(list);
 	}
 
-	@PostMapping("/addReview/{review}")
+	@PostMapping("/addReview")
 	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
 		reviewservice.addOrUpdateReview(review);
 		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
