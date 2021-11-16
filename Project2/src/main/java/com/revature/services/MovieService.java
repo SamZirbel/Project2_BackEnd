@@ -42,6 +42,18 @@ public class MovieService {
 		return movieID;
 
 	}
+	
+	public Optional<Movie> findByimdbId(String imdbId) {
+		return movierepo.findByimdbId(imdbId);
+	}
+	
+	public boolean singleAdd(Movie movie) {
+		if (this.findByimdbId(movie.getImdbId()) != null) {
+			this.addOrUpdateMovie(movie);
+			return true;
+		}
+		return false;
+	}
 
 	@Modifying
 	@Transactional
