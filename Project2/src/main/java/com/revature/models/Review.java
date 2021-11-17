@@ -21,13 +21,13 @@ public class Review {
     private int rid;
     
     @JoinColumn(name="userId", referencedColumnName = "userId")
-    @ManyToOne(fetch=FetchType.EAGER)
-    //@JsonBackReference
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
     private UserClass userclass;
     
     @JoinColumn(name="movieId", referencedColumnName = "movieId")
-    //@JsonBackReference
-    @ManyToOne(fetch=FetchType.EAGER)
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Movie movie;
     
     private byte starRating;

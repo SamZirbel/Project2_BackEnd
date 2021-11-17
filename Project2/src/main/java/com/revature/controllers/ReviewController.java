@@ -1,5 +1,8 @@
 package com.revature.controllers;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.services.ReviewService;
 import com.revature.models.Movie;
 import com.revature.models.Review;
-import java.util.List;
+import com.revature.models.UserClass;
+import com.revature.models.reviewDTO;
+import com.revature.services.MovieService;
+import com.revature.services.ReviewService;
+import com.revature.services.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,28 +29,45 @@ public class ReviewController {
 	
 
 	private ReviewService reviewservice;
+	private MovieService movieservice;
+	private UserService userservice;
 	
 	@Autowired
-	public ReviewController(ReviewService reviewservice) {
+	public ReviewController(ReviewService reviewservice, MovieService movieservice, UserService userservice) {
 		
 		super ();
 		this.reviewservice = reviewservice;
+		this.movieservice = movieservice;
+		this.userservice = userservice;
 		
 	}
 
-	@GetMapping("/reviewsByMovie/{movie}")
-	public ResponseEntity<List<Review>> fetchReviewsByMovie(@PathVariable("movie") Movie movie){
-		List<Review> list = reviewservice.findByMovie(movie);
+	@GetMapping("/reviewsByMovie/{movieid}")
+	public ResponseEntity<List<Review>> fetchReviewsByMovie(@PathVariable("movieid") String movieId){
+		try {
+			Movie movie = movieservice.findByimdbId(movieId).get();
+			List<Review> list = reviewservice.findByMovie(movie);
 		
-		if(list.isEmpty()){
-			return ResponseEntity.noContent().build();
+			if(list.isEmpty()){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.ok(list);
+		} catch (NoSuchElementException e){
+			e.printStackTrace();
 		}
-		return ResponseEntity.ok(list);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/addReview")
-	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
-		reviewservice.addOrUpdateReview(review);
+
+	
+	public ResponseEntity<List<Review>> addReview(@RequestBody reviewDTO review){
+
+		UserClass user = userservice.findByUsername(review.username);
+		Review fullReview = new Review(user, review.movie, review.starRating, review.review);
+		movieservice.addOrUpdateMovie(fullReview.getMovie());
+		reviewservice.addOrUpdateReview(fullReview);
+
 		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
 	}
 	@GetMapping("/getreview")

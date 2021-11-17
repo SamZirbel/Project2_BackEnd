@@ -2,10 +2,13 @@ package com.revature.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ import com.revature.repos.FavoriteRepo;
 
 @Service
 public class FavoriteService {
+	
+	private static Logger log = LoggerFactory.getLogger(FavoriteService.class);
 	
 	private FavoriteRepo favoriterepo;
 	private UserService userService;
@@ -75,12 +80,53 @@ public class FavoriteService {
 	@Transactional
 	// VV Use Save For Save And Update
 	public void addOrUpdateFavorite(userDTO userDTO) {
+		
+		log.info("Starting Favorite Addition Service");
+		
+		//System.err.println("Starting Add Favorite");
+		
 		UserClass user = userService.findByUsername(userDTO.username);
-		movieService.addOrUpdateMovie(userDTO.movie);
-		Movie movie = movieService.findByimdbId(userDTO.movie.getImdbId()).get();
+		
+		//System.err.println(user);
+		
+		//System.err.println("Starting Find Movie By IMDBID");
+		
+		Movie movie = null;
+		
+		try {
+		Movie movieQ = movieService.findByimdbId(userDTO.movie.getImdbId()).get();
+		movie = movieQ;
+		
+		log.info("Movie Found Inside Database");
+		//System.err.println("Movie Found" + movieQ);
+		//System.err.println("Movie Found" + movie);
+		}
+		catch (NoSuchElementException e) { 
+			log.info("Exception Caught : Movie Not Found Inside Database");
+			//System.err.println("No Movie Found"); 
+			}
+		
+		//System.err.println("Movie Value : " + movie);
+		
+		if (movie == null) {
+			movieService.addOrUpdateMovie(userDTO.movie);
+			
+			//System.err.println("Adding Movie");
+			log.info("Movie Added To Database Entitled : " + userDTO.movie.getTitle());
+		
+			// VV Need To Query Again To Obtain The Movie ID
+			movie = movieService.findByimdbId(userDTO.movie.getImdbId()).get();
+			
+		}
+		else { log.info("Movie Already Inside Database : Movie Not Added To Database"); }
+		
+		
 		Favorite fav = new Favorite(user, movie);
-		System.out.println(fav);
+		
+		//System.out.println(fav);
+		
 		favoriterepo.save(fav); 
+		
 	}
 
 	@Transactional
