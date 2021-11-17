@@ -44,6 +44,9 @@ public class ReviewController {
 
 	@GetMapping("/reviewsByMovie/{movieid}")
 	public ResponseEntity<List<Review>> fetchReviewsByMovie(@PathVariable("movieid") String movieId){
+		
+		System.err.println("Getting Reviews By MovieID For Printout On Review String");
+		
 		try {
 			Movie movie = movieservice.findByimdbId(movieId).get();
 			List<Review> list = reviewservice.findByMovie(movie);
