@@ -96,7 +96,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.revature.Driver</mainClass>
+                            <mainClass>com.revature.Project2Application</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
