@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.services.MovieService;
 import com.revature.services.ReviewService;
+import com.revature.services.UserService;
 import com.revature.models.Movie;
 import com.revature.models.Review;
+import com.revature.models.UserClass;
+import com.revature.models.reviewDTO;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,13 +31,15 @@ public class ReviewController {
 
 	private ReviewService reviewservice;
 	private MovieService movieservice;
+	private UserService userservice;
 	
 	@Autowired
-	public ReviewController(ReviewService reviewservice, MovieService movieservice) {
+	public ReviewController(ReviewService reviewservice, MovieService movieservice, UserService userservice) {
 		
 		super ();
 		this.reviewservice = reviewservice;
 		this.movieservice = movieservice;
+		this.userservice = userservice;
 		
 	}
 
@@ -54,15 +60,12 @@ public class ReviewController {
 	}
 
 	@PostMapping("/addReview")
-	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
-		movieservice.addOrUpdateMovie(review.getMovie());
-		reviewservice.addOrUpdateReview(review);
-		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
-	}
+	public ResponseEntity<List<Review>> addReview(@RequestBody reviewDTO review){
 
-	@PostMapping("/addReview/{review}")
-	public ResponseEntity<List<Review>> addReview(@RequestBody Review review){
-		reviewservice.addOrUpdateReview(review);
+		UserClass user = userservice.findByUsername(review.username);
+		Review fullReview = new Review(user, review.movie, review.starRating, review.review);
+		movieservice.addOrUpdateMovie(fullReview.getMovie());
+		reviewservice.addOrUpdateReview(fullReview);
 		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
 	}
 
