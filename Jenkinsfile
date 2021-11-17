@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                bat 'mvn clean install'
+                bat 'mvn -f Project2/pom.xml clean install'
             }
         }
        
