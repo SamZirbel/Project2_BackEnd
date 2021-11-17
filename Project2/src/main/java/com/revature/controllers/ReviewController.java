@@ -63,10 +63,15 @@ public class ReviewController {
 	
 	public ResponseEntity<List<Review>> addReview(@RequestBody reviewDTO review){
 
-		UserClass user = userservice.findByUsername(review.username);
-		Review fullReview = new Review(user, review.movie, review.starRating, review.review);
-		movieservice.addOrUpdateMovie(fullReview.getMovie());
-		reviewservice.addOrUpdateReview(fullReview);
+		System.err.println("Adding A Review");
+		
+//		UserClass user = userservice.findByUsername(review.username);
+//		Review fullReview = new Review(user, review.movie, review.starRating, review.review);
+//		movieservice.addOrUpdateMovie(fullReview.getMovie());
+		
+		//movieservice.addOrUpdateMovie(review);
+		
+		reviewservice.addOrUpdateReview(review);
 
 		return ResponseEntity.status(HttpStatus.OK).body(reviewservice.findAll());
 	}
