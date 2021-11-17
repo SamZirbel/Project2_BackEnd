@@ -17,17 +17,17 @@ public class FavoriteTest {
 	
 	@Test
 	public void findAll() {
-		assertThat(!favrepo.findAll().isEmpty());
+		assertThat(favrepo.findAll().size() > 0);
 	}
 	
 	@Test
 	public void findByUser() {
-		assertThat(!favrepo.findByUser_userId(3).isEmpty());
+		assertThat(favrepo.findByUser_userId(3).get().size() > 0);
 	}
 	
 	@Test
 	public void findByUserandMovie() {
-		assertThat(!favrepo.findByUser_userIdAndMovie_movieId(3, 36).isEmpty());
+		assertThat(favrepo.findByUser_userIdAndMovie_movieId(3, 36) != null);
 	}
 	
 }
