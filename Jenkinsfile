@@ -11,7 +11,11 @@ pipeline {
                 bat 'mvn -f Project2/pom.xml clean install'
             }
         }
-        
+        stage('Deploy') { 
+            steps {
+                bat 'docker build -t umerzahid/moviebook:1.0.0 .'
+            }
+        }
        
     }
 }
