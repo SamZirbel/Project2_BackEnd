@@ -1,6 +1,6 @@
 # MovieBook
 
-## [Link To MovieBook Front End](https://github.com/SamZirbel/Project2_FrontEnd/blob/main/README.md)
+## [Link To MovieBook Front End](https://github.com/SamZirbel/Project2_FrontEnd)
 
 ## Project Explanation / Overview
 
