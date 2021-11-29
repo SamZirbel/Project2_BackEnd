@@ -10,7 +10,7 @@
 
 - Single Page Application (SPA) functionality utilizing Angular 10
 - User Registration
-- User Login
+- User Login and JSON Web Token Generated
 - Password Reset
 - Persisted passwords are encrypted
 - OMDB external API Querying
@@ -33,7 +33,8 @@
 
 ## Technologies Used
 
-Java, JUnit, Log4J, Javalin, HTML, CSS, JavaScript, Hibernate, AWS RDS, SQL
+Java, Angular, Hibernate, AWS RDS, Jenkins and Docker, Spring Framework, HTML, CSS,
+Spring Boot, Spring Data JPA, Spring MVC, Spring Security with JWT, JUnit, Log4J, 
 
 ## Set Up / Usage Guide
 
